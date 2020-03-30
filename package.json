@@ -1,0 +1,11 @@
+{
+  "name": "abirechner",
+  "version": "0.1.0",
+  "description": "_Simple App zur Berechnung der Abinote_",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "KonstantinEger",
+  "license": "MIT"
+}

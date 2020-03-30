@@ -1,11 +1,14 @@
 {
   "name": "abirechner",
   "version": "0.1.0",
-  "description": "_Simple App zur Berechnung der Abinote_",
+  "description": "Simple App zur Berechnung der Abinote",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "live-server --no-css-inject"
   },
-  "author": "KonstantinEger",
-  "license": "MIT"
+  "author": "KonstantinEger <35273325+KonstantinEger@users.noreply.github.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
 }

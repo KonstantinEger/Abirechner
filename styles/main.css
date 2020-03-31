@@ -1,0 +1,16 @@
+.course-card {
+  padding: 10px;
+  margin: 15px;
+  border-radius: 5px;
+  background-color: var(--bg-color-lighten);
+  border-left: 3px solid var(--bg-color-lighten);
+}
+
+.course-card > .course-card-header {
+  padding: 10px 0px 10px 10px;
+  font-size: 1.2em;
+}
+
+.course-card > .course-card-body {
+  padding-left: 13px;
+}

@@ -18,10 +18,11 @@ export async function coursesAreInDB(db) {
 }
 
 export async function createCoursesInDB(db) {
-  function newCourseObj(name, shortName) {
+  function newCourseObj(name, shortName, color) {
     return {
       name: name,
       short_name: shortName,
+      color: color,
       marks: [[], [], [], []],
       exams: [[], [], [], []]
     };
@@ -29,17 +30,17 @@ export async function createCoursesInDB(db) {
 
   const tx = db.transaction('courses', 'readwrite');
 
-  tx.store.add(newCourseObj('Biologie', 'bio'));
-  tx.store.add(newCourseObj('Chemie', 'che'));
-  tx.store.add(newCourseObj('Deutsch', 'deu'));
-  tx.store.add(newCourseObj('Englisch', 'eng'));
-  tx.store.add(newCourseObj('Geographie', 'geo'));
-  tx.store.add(newCourseObj('Geschichte', 'ges'));
-  tx.store.add(newCourseObj('Informatik', 'inf'));
-  tx.store.add(newCourseObj('Mathematik', 'mat'));
-  tx.store.add(newCourseObj('Musik', 'mus'));
-  tx.store.add(newCourseObj('Physik', 'phy'));
-  tx.store.add(newCourseObj('Sport', 'spo'));
+  tx.store.add(newCourseObj('Biologie', 'bio', 'green'));
+  tx.store.add(newCourseObj('Chemie', 'che', 'yellow'));
+  tx.store.add(newCourseObj('Deutsch', 'deu', 'blue'));
+  tx.store.add(newCourseObj('Englisch', 'eng', 'teal'));
+  tx.store.add(newCourseObj('Geographie', 'geo', 'brown'));
+  tx.store.add(newCourseObj('Geschichte', 'ges', 'orange'));
+  tx.store.add(newCourseObj('Informatik', 'inf', 'grey'));
+  tx.store.add(newCourseObj('Mathematik', 'mat', 'crimson'));
+  tx.store.add(newCourseObj('Musik', 'mus', 'darkorchid'));
+  tx.store.add(newCourseObj('Physik', 'phy', 'peru'));
+  tx.store.add(newCourseObj('Sport', 'spo', 'cyan'));
 
   await tx.done;
 }

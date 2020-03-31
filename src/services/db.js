@@ -8,6 +8,9 @@ export function openDB() {
         autoIncrement: true
       });
       store.createIndex('by-short-name', 'short_name');
+    },
+    blocked() {
+      console.log('blocked');
     }
   });
 }

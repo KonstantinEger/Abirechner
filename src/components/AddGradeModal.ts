@@ -1,4 +1,10 @@
-function displayAddGradeModal() {
+interface IAddGradeModal {
+  aborted: boolean;
+  gradeType: 'exam' | 'mark';
+  grade: number;
+}
+
+function displayAddGradeModal(): Promise<IAddGradeModal> {
   return new Promise((resolve) => {
     const bgElement = document.createElement('div');
     bgElement.className = 'modal-bg';
@@ -21,10 +27,17 @@ function displayAddGradeModal() {
     const doneBtn = document.createElement('button');
     doneBtn.innerText = 'FERTIG';
     doneBtn.addEventListener('click', () => {
-      const type = bgElement.querySelector('select#type-select').value;
-      const grade = parseInt(bgElement.querySelector('input#grade-input').value);
+      const gradeType = 
+        <'exam' | 'mark'>bgElement
+          .querySelector<HTMLSelectElement>('select#type-select')
+          .value;
+
+      const grade = parseInt(
+        bgElement.querySelector<HTMLInputElement>('input#grade-input').value
+      );
+
       document.body.removeChild(bgElement);
-      resolve({ aborted: false, type, grade });
+      resolve({ aborted: false, gradeType, grade });
     });
 
     const abortBtn = document.createElement('button');
@@ -32,7 +45,7 @@ function displayAddGradeModal() {
     abortBtn.innerText = 'ABBRECHEN';
     abortBtn.addEventListener('click', () => {
       document.body.removeChild(bgElement);
-      resolve({ aborted: true });
+      resolve({ aborted: true, grade: 0, gradeType: 'mark' });
     });
 
     const $actionsContainer = bgElement.querySelector('div#actions-container');

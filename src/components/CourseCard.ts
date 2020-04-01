@@ -1,4 +1,6 @@
-function getCourseCardHTML(semester, course) {
+import { ICourse } from "../services/db";
+
+function getCourseCardHTML(semester: number, course: ICourse): string {
   return `
     <div class="course-card" id="${course.short_name}" style="border-color: ${course.color};">
       <div class="course-card-header" >

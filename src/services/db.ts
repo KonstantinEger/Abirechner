@@ -1,7 +1,23 @@
-import { openDB } from 'idb';
+import { openDB, DBSchema, IDBPDatabase } from 'idb';
 
-function openDataBase() {
-  return openDB('abi-db', 1, {
+interface ICourse {
+  name: string;
+  short_name: string;
+  color: string;
+  marks: [number[], number[], number[], number[]];
+  exams: [number[], number[], number[], number[]];
+}
+
+interface IAbiDBSchema extends DBSchema {
+  courses: {
+    value: ICourse;
+    key: number;
+    indexes: { 'by-short-name': string };
+  }
+}
+
+function openDataBase(): Promise<IDBPDatabase<IAbiDBSchema>> {
+  return openDB<IAbiDBSchema>('abi-db', 1, {
     upgrade(db) {
       const store = db.createObjectStore('courses', {
         keyPath: 'id',
@@ -15,13 +31,13 @@ function openDataBase() {
   });
 }
 
-async function coursesAreInDB(db) {
+async function coursesAreInDB(db: IDBPDatabase<IAbiDBSchema>): Promise<boolean> {
   const tx = db.transaction('courses');
   return await tx.store.get(1) === undefined ? false : true;
 }
 
-async function createCoursesInDB(db) {
-  function newCourseObj(name, shortName, color) {
+async function createCoursesInDB(db: IDBPDatabase<IAbiDBSchema>): Promise<void> {
+  function newCourseObj(name: string, shortName: string, color: string): ICourse {
     return {
       name: name,
       short_name: shortName,
@@ -46,6 +62,13 @@ async function createCoursesInDB(db) {
   tx.store.add(newCourseObj('Sport', 'spo', 'cyan'));
 
   await tx.done;
+  return;
 }
 
-export { openDataBase as openDB, coursesAreInDB, createCoursesInDB };
+export {
+  openDataBase as openDB,
+  coursesAreInDB,
+  createCoursesInDB,
+  ICourse,
+  IAbiDBSchema
+};

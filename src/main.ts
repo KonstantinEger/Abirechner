@@ -1,5 +1,6 @@
 import { openDB, coursesAreInDB, createCoursesInDB } from './services/db';
 import { getCourseCardHTML } from './components/CourseCard';
+
 import('./handlers');
 
 document.body.onload = async () => {

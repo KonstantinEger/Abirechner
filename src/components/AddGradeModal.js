@@ -1,4 +1,4 @@
-export function displayAddGradeModal() {
+function displayAddGradeModal() {
   return new Promise((resolve) => {
     const bgElement = document.createElement('div');
     bgElement.className = 'modal-bg';
@@ -31,3 +31,5 @@ export function displayAddGradeModal() {
     document.body.style = 'overflow: hidden;';
   });
 }
+
+export { displayAddGradeModal };

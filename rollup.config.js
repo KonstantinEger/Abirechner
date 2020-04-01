@@ -5,7 +5,8 @@ export default {
   input: 'src/main.js',
   output: {
     dir: 'dist',
-    format: 'es'
+    format: 'es',
+    chunkFileNames: '[name]-chunk.js'
   },
   plugins: [resolve(), terser()]
 }

@@ -1,4 +1,4 @@
-export function getCourseCardHTML(semester, course) {
+function getCourseCardHTML(semester, course) {
   return `
     <div class="course-card" id="${course.short_name}" style="border-color: ${course.color};">
       <div class="course-card-header" >
@@ -20,3 +20,5 @@ export function getCourseCardHTML(semester, course) {
     </div>
   `;
 }
+
+export { getCourseCardHTML };

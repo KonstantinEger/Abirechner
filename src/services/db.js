@@ -1,7 +1,7 @@
-import * as idb from 'https://unpkg.com/idb?module';
+import { openDB } from 'idb';
 
-export function openDB() {
-  return idb.openDB('abi-db', 1, {
+function openDataBase() {
+  return openDB('abi-db', 1, {
     upgrade(db) {
       const store = db.createObjectStore('courses', {
         keyPath: 'id',
@@ -15,12 +15,12 @@ export function openDB() {
   });
 }
 
-export async function coursesAreInDB(db) {
+async function coursesAreInDB(db) {
   const tx = db.transaction('courses');
   return await tx.store.get(1) === undefined ? false : true;
 }
 
-export async function createCoursesInDB(db) {
+async function createCoursesInDB(db) {
   function newCourseObj(name, shortName, color) {
     return {
       name: name,
@@ -47,3 +47,5 @@ export async function createCoursesInDB(db) {
 
   await tx.done;
 }
+
+export { openDataBase as openDB, coursesAreInDB, createCoursesInDB };

@@ -1,4 +1,4 @@
-export function displayAddGradeModal() {
+function displayAddGradeModal() {
   return new Promise((resolve) => {
     const bgElement = document.createElement('div');
     bgElement.className = 'modal-bg';
@@ -23,11 +23,11 @@ export function displayAddGradeModal() {
       const type = bgElement.querySelector('select#type-select').value;
       const grade = parseInt(bgElement.querySelector('input#grade-input').value);
       document.body.removeChild(bgElement);
-      document.body.style = '';
       resolve({ type, grade });
     });
     bgElement.querySelector('div#done-btn-container').appendChild(doneBtn);
     document.body.insertBefore(bgElement, document.body.firstChild);
-    document.body.style = 'overflow: hidden;';
   });
 }
+
+export { displayAddGradeModal };

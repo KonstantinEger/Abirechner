@@ -17,7 +17,7 @@
 
 .modal-bg {
   position: fixed;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(6px);
   top: 0;
   left: 0;
   width: 100vw;
@@ -31,7 +31,7 @@
   top: 50%;
   width: 85%;
   margin-left: -42.5%;
-  margin-top: calc(147px / -2);
+  margin-top: calc(189px / -2);
   background-color: var(--bg-color);
   border-radius: var(--border-radius);
 }
@@ -58,11 +58,16 @@
 
 .modal-body button {
   width: 100%;
-  margin: 5px;
+  margin: 5px 0px;
   padding: 5px 0px;
   border: none;
   border-radius: 5px;
   color: var(--text-color);
   background-color: var(--theme);
   font-size: 1.2em;
+}
+
+.modal-body button.secundary {
+  background-color: #dddddd;
+  color: #333333;
 }

@@ -2,7 +2,10 @@ import { displayAddGradeModal } from './components/AddGradeModal';
 import { openDB } from './services/db';
 
 globalThis.handleAddGrade = async (event) => {
-  const { grade, type } = await displayAddGradeModal();
+  const { aborted, grade, type } = await displayAddGradeModal();
+
+  if (aborted) return;
+
   const courseShortName = event.target.id.split('-')[0];
   const semester = parseInt(event.target.id.split('-')[1]);
 
@@ -11,12 +14,14 @@ globalThis.handleAddGrade = async (event) => {
   const data = await index.get(courseShortName);
 
   switch (type) {
-    case "mark":
+    case "mark": {
       data.marks[semester].push(grade);
       break;
-    case "exam":
+    }
+    case "exam": {
       data.exams[semester].push(grade);
       break;
+    }
   }
 
   tx.store.put(data);

@@ -13,19 +13,31 @@ function displayAddGradeModal() {
             <option value="mark" selected>Sonstige Note</option>
           </select>
           <input type="number" min="0" max="15" value="15" step="1" id="grade-input" />
-          <div id="done-btn-container"></div>
+          <div id="actions-container"></div>
         </div>
       </div>
     `;
+
     const doneBtn = document.createElement('button');
-    doneBtn.innerText = 'Fertig';
+    doneBtn.innerText = 'FERTIG';
     doneBtn.addEventListener('click', () => {
       const type = bgElement.querySelector('select#type-select').value;
       const grade = parseInt(bgElement.querySelector('input#grade-input').value);
       document.body.removeChild(bgElement);
-      resolve({ type, grade });
+      resolve({ aborted: false, type, grade });
     });
-    bgElement.querySelector('div#done-btn-container').appendChild(doneBtn);
+
+    const abortBtn = document.createElement('button');
+    abortBtn.classList.add('secundary');
+    abortBtn.innerText = 'ABBRECHEN';
+    abortBtn.addEventListener('click', () => {
+      document.body.removeChild(bgElement);
+      resolve({ aborted: true });
+    });
+
+    const $actionsContainer = bgElement.querySelector('div#actions-container');
+    $actionsContainer.appendChild(doneBtn);
+    $actionsContainer.appendChild(abortBtn);
     document.body.insertBefore(bgElement, document.body.firstChild);
   });
 }

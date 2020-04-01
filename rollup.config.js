@@ -4,7 +4,7 @@ import { terser } from 'rollup-plugin-terser';
 export default {
   input: 'src/main.js',
   output: {
-    dir: 'dist',
+    dir: 'public/build',
     format: 'es',
     chunkFileNames: '[name]-chunk.js'
   },

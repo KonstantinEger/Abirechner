@@ -4,7 +4,7 @@
   "description": "Simple App zur Berechnung der Abinote",
   "main": "index.html",
   "scripts": {
-    "dev": "live-server --no-css-inject",
+    "dev": "live-server ./public/ --no-css-inject",
     "build": "rollup -c",
     "watch": "rollup -c -w"
   },

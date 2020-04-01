@@ -1,4 +1,4 @@
-import * as idb from 'https://unpkg.com/idb?module';
+import * as idb from 'idb';
 
 export function openDB() {
   return idb.openDB('abi-db', 1, {

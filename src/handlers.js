@@ -1,6 +1,5 @@
-import { displayAddGradeModal } from './components/AddGradeModal.js';
-import { getCourseCardHTML } from './components/CourseCard.js';
-import { openDB } from './services/db.js';
+import { displayAddGradeModal } from './components/AddGradeModal';
+import { openDB } from './services/db';
 
 globalThis.handleAddGrade = async (event) => {
   const { grade, type } = await displayAddGradeModal();

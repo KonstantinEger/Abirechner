@@ -1,6 +1,10 @@
 import { ICourse } from "../services/db";
+import { concatArray, avgArray, preciseRound } from './utils';
 
 function getCourseCardHTML(semester: number, course: ICourse): string {
+  const roundExamsAvg = preciseRound(avgArray(course.exams[semester]), 2);
+  const roundMarksAvg = preciseRound(avgArray(course.marks[semester]), 2);
+
   return `
     <div
       class="course-card"
@@ -15,13 +19,15 @@ function getCourseCardHTML(semester: number, course: ICourse): string {
       </div>
       <div class="course-card-body">
         <b>Klausuren</b>
-          <br />
-          ${course.exams[semester].reduce((acc, exam) => `${acc} ${exam},`, '')}
-          <br />
+        <span class="grades-avg">&oslash;${isNaN(roundExamsAvg) ? '-' : roundExamsAvg}</span>
+        <br />
+          ${concatArray(course.exams[semester])}
+        <br />
         <b>Leistungskontrollen</b>
-          <br />
-          ${course.marks[semester].reduce((acc, mark) => `${acc} ${mark},`, '')}
-          <br />
+        <span class="grades-avg">&oslash;${isNaN(roundMarksAvg) ? '-' : roundMarksAvg}</span>
+        <br />
+          ${concatArray(course.marks[semester])}
+        <br />
       <div>
     </div>
   `;

@@ -3,7 +3,7 @@ import { getCourseCardHTML } from './components/CourseCard';
 
 import('./handlers');
 
-document.body.onload = async () => {
+(async () => {
   const db = await openDB();
 
   if (!(await coursesAreInDB(db))) {
@@ -20,4 +20,4 @@ document.body.onload = async () => {
       }
     }
   }
-};
+})();

@@ -1,4 +1,5 @@
 import { displayAddGradeModal } from './components/AddGradeModal';
+import { getCourseCardHTML } from './components/CourseCard';
 import { openDB } from './services/db';
 
 globalThis.handleAddGrade = async (event: MouseEvent) => {
@@ -12,21 +13,24 @@ globalThis.handleAddGrade = async (event: MouseEvent) => {
 
   const tx = (await openDB()).transaction('courses', 'readwrite');
   const index = tx.store.index('by-short-name');
-  const data = await index.get(courseShortName);
+  const course = await index.get(courseShortName);
 
   switch (gradeType) {
     case 'mark': {
-      data.marks[semester].push(grade);
+      course.marks[semester].push(grade);
       break;
     }
     case 'exam': {
-      data.exams[semester].push(grade);
+      course.exams[semester].push(grade);
       break;
     }
   }
 
-  tx.store.put(data);
+  tx.store.put(course);
   await tx.done;
 
-  location.reload();
+  const cardHTML = getCourseCardHTML(semester, course);
+  const selector = `div#${courseShortName}-${semester}.course-card`;
+  const $prevElement = document.querySelector(selector);
+  $prevElement.outerHTML = cardHTML;
 };

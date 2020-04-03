@@ -1,7 +1,12 @@
 import { ICourse } from "../services/db";
 import { concatArray, avgArray, preciseRound } from './utils';
 
-function getCourseCardHTML(semester: number, course: ICourse): string {
+interface ICourseCardData {
+  html: string;
+  courseAvg: number | undefined;
+}
+
+function getCourseCardData(semester: number, course: ICourse): ICourseCardData {
   const examsAvg = avgArray(course.exams[semester]);
   const marksAvg = avgArray(course.marks[semester]);
   const courseAvg = isNaN(examsAvg) 
@@ -14,7 +19,7 @@ function getCourseCardHTML(semester: number, course: ICourse): string {
   const roundMarksAvg = preciseRound(marksAvg, 2);
   const roundCourseAvg = preciseRound(courseAvg, 2);
 
-  return `
+  const html = `
     <div
       class="course-card"
       id="${course.short_name}-${semester}"
@@ -43,6 +48,11 @@ function getCourseCardHTML(semester: number, course: ICourse): string {
       <div>
     </div>
   `;
+
+  return { 
+    html,
+    courseAvg: isNaN(courseAvg) ? undefined : courseAvg
+  };
 }
 
-export { getCourseCardHTML };
+export { getCourseCardData };

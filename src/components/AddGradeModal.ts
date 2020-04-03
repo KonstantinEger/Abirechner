@@ -29,11 +29,11 @@ function displayAddGradeModal(): Promise<IAddGradeModal> {
     doneBtn.addEventListener('click', () => {
       const gradeType = 
         <'exam' | 'mark'>bgElement
-          .querySelector<HTMLSelectElement>('select#type-select')
+          .querySelector<HTMLSelectElement>('select#type-select')!
           .value;
 
       const grade = parseInt(
-        bgElement.querySelector<HTMLInputElement>('input#grade-input').value
+        bgElement.querySelector<HTMLInputElement>('input#grade-input')!.value
       );
 
       document.body.removeChild(bgElement);
@@ -48,7 +48,7 @@ function displayAddGradeModal(): Promise<IAddGradeModal> {
       resolve({ aborted: true, grade: 0, gradeType: 'mark' });
     });
 
-    const $actionsContainer = bgElement.querySelector('div#actions-container');
+    const $actionsContainer = bgElement.querySelector('div#actions-container')!;
     $actionsContainer.appendChild(doneBtn);
     $actionsContainer.appendChild(abortBtn);
     document.body.insertBefore(bgElement, document.body.firstChild);

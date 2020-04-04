@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="rgb(199, 53, 53)">
+  <link rel="manifest" href="./manifest.json">
   <style>
     :root {
       --theme: rgb(199, 53, 53);
@@ -91,5 +93,13 @@
 
   <link rel="stylesheet" href="./styles/main.css">
   <script src="./build/main.js" type="module"></script>
+  <script defer>
+    (async () => {
+      if ('serviceWorker' in navigator) {
+        const sw = await navigator.serviceWorker.register('./sw.js');
+        await sw.update();
+      }
+    })();
+  </script>
 </body>
 </html>

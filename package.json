@@ -11,6 +11,7 @@
   "author": "KonstantinEger <35273325+KonstantinEger@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-json": "^4.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@rollup/plugin-typescript": "^4.0.0",
     "concurrently": "^5.1.0",

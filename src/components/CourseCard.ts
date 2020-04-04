@@ -27,10 +27,14 @@ function getCourseCardData(semester: number, course: ICourse): ICourseCardData {
     >
       <div class="course-card-header">
         ${course.name}
-        <button id="${course.short_name}-${semester}" onclick="handleAddGrade(event)">
-          + Neue Note
-        </button>
         <span class="course-avg">&oslash;${isNaN(roundCourseAvg) ? '-' : roundCourseAvg}</span>
+        <button
+          id="${course.short_name}-${semester}"
+          class="add-grade-btn"
+          onclick="handleAddGrade(event)"
+        >
+          Hinzufügen
+        </button>
       </div>
 
       <div class="course-card-body">

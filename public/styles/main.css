@@ -11,6 +11,19 @@
   font-size: 1.2em;
 }
 
+.course-card > .course-card-header > .add-grade-btn {
+  --fontsize: 15px;
+  float: right;
+  color: #dddddd;
+  background-color: var(--theme);
+  border: none;
+  border-radius: 15px;
+  font-size: var(--fontsize);
+  height: calc(46px - var(--fontsize));
+  margin-right: 10px;
+  padding: 1px 12px;
+}
+
 .course-card > .course-card-header > .course-avg {
   float: right;
   color: var(--theme);

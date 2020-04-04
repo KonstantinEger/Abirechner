@@ -1,5 +1,5 @@
 import { ICourse } from "../services/db";
-import { concatArray, avgArray, preciseRound } from './utils';
+import { concatArray, avgArray, preciseRound } from '../services/utils';
 
 interface ICourseCardData {
   html: string;

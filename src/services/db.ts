@@ -1,4 +1,6 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
+import { getCourseCardData } from '../components/CourseCard';
+import { avgArray } from './utils';
 
 interface ICourse {
   name: string;
@@ -65,10 +67,26 @@ async function createCoursesInDB(db: IDBPDatabase<IAbiDBSchema>): Promise<void> 
   return;
 }
 
+async function getSemesterAverage(semester: number): Promise<number | null> {
+  const db = await openDataBase();
+  const courses = await db.transaction('courses').store.getAll();
+
+  const averages: Array<number> = [];
+  for (let course of courses) {
+    const { courseAvg } = getCourseCardData(semester, course);
+    if (courseAvg !== undefined) averages.push(courseAvg);
+  }
+
+  return averages.length === 0
+    ? null
+    : avgArray(averages);
+}
+
 export {
   openDataBase as openDB,
   coursesAreInDB,
   createCoursesInDB,
+  getSemesterAverage,
   ICourse,
   IAbiDBSchema
 };

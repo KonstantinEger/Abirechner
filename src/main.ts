@@ -1,5 +1,6 @@
-import { openDB, coursesAreInDB, createCoursesInDB } from './services/db';
+import { openDB, coursesAreInDB, createCoursesInDB, getSemesterAverage } from './services/db';
 import { getCourseCardData } from './components/CourseCard';
+import { displaySemesterAvg } from './services/updateDOM';
 
 import('./handlers');
 
@@ -19,6 +20,8 @@ import('./handlers');
         const { html } = getCourseCardData(sem, course);
         $parentEl.innerHTML += html;
       }
+
+      displaySemesterAvg(sem, await getSemesterAverage(sem));
     }
   }
 })();

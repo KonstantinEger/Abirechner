@@ -1,6 +1,7 @@
 import { displayAddGradeModal } from './components/AddGradeModal';
 import { getCourseCardData } from './components/CourseCard';
-import { openDB } from './services/db';
+import { openDB, getSemesterAverage } from './services/db';
+import { displaySemesterAvg } from './services/updateDOM';
 
 // @ts-ignore
 globalThis.handleAddGrade = async (event: MouseEvent) => {
@@ -36,4 +37,6 @@ globalThis.handleAddGrade = async (event: MouseEvent) => {
   const selector = `div#${courseShortName}-${semester}.course-card`;
   const $prevElement = document.querySelector(selector)!;
   $prevElement.outerHTML = html;
+
+  displaySemesterAvg(semester, await getSemesterAverage(semester));
 };

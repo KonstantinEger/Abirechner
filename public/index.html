@@ -91,5 +91,13 @@
 
   <link rel="stylesheet" href="./styles/main.css">
   <script src="./build/main.js" type="module"></script>
+  <script defer>
+    (async () => {
+      if ('serviceWorker' in navigator) {
+        const sw = await navigator.serviceWorker.register('./sw.js');
+        await sw.update();
+      }
+    })();
+  </script>
 </body>
 </html>

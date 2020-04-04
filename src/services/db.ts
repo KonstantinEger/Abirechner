@@ -74,7 +74,7 @@ async function getSemesterAverage(semester: number): Promise<number | null> {
   const averages: Array<number> = [];
   for (let course of courses) {
     const { courseAvg } = getCourseCardData(semester, course);
-    if (courseAvg !== undefined) averages.push(courseAvg);
+    if (courseAvg !== null) averages.push(courseAvg);
   }
 
   return averages.length === 0

@@ -3,7 +3,7 @@ import { concatArray, avgArray, preciseRound } from '../services/utils';
 
 interface ICourseCardData {
   html: string;
-  courseAvg: number | undefined;
+  courseAvg: number | null;
 }
 
 function getCourseCardData(semester: number, course: ICourse): ICourseCardData {
@@ -55,7 +55,7 @@ function getCourseCardData(semester: number, course: ICourse): ICourseCardData {
 
   return { 
     html,
-    courseAvg: isNaN(courseAvg) ? undefined : courseAvg
+    courseAvg: isNaN(courseAvg) ? null : courseAvg
   };
 }
 

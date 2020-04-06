@@ -1,5 +1,5 @@
 import { ICourse } from "../services/db";
-import { concatArray, avgArray, preciseRound } from '../services/utils';
+import { avgArray, preciseRound } from '../services/utils';
 
 interface ICourseCardData {
   html: string;
@@ -41,13 +41,13 @@ function getCourseCardData(semester: number, course: ICourse): ICourseCardData {
         <b>Klausuren</b>
         <span class="grades-avg">&oslash;${isNaN(roundExamsAvg) ? '-' : roundExamsAvg}</span>
         <br />
-          ${concatArray(course.exams[semester])}
+          ${course.exams[semester].toString()}
         <br />
 
         <b>Leistungskontrollen</b>
         <span class="grades-avg">&oslash;${isNaN(roundMarksAvg) ? '-' : roundMarksAvg}</span>
         <br />
-          ${concatArray(course.marks[semester])}
+          ${course.marks[semester].toString()}
         <br />
       <div>
     </div>

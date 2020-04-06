@@ -21,11 +21,13 @@ interface IAbiDBSchema extends DBSchema {
 function openDataBase(): Promise<IDBPDatabase<IAbiDBSchema>> {
   return openDB<IAbiDBSchema>('abi-db', 1, {
     upgrade(db) {
-      const store = db.createObjectStore('courses', {
-        keyPath: 'id',
-        autoIncrement: true
-      });
-      store.createIndex('by-short-name', 'short_name');
+      if (db.objectStoreNames.contains('courses') === false) {
+        const store = db.createObjectStore('courses', {
+          keyPath: 'id',
+          autoIncrement: true
+        });
+        store.createIndex('by-short-name', 'short_name');
+      }
     },
     blocked() {
       console.log('blocked');
@@ -55,13 +57,17 @@ async function createCoursesInDB(db: IDBPDatabase<IAbiDBSchema>): Promise<void> 
   tx.store.add(newCourseObj('Chemie', 'che', 'yellow'));
   tx.store.add(newCourseObj('Deutsch', 'deu', 'blue'));
   tx.store.add(newCourseObj('Englisch', 'eng', 'teal'));
+  tx.store.add(newCourseObj('Französisch', 'fra', 'deepskyblue'));
   tx.store.add(newCourseObj('Geographie', 'geo', 'brown'));
   tx.store.add(newCourseObj('Geschichte', 'ges', 'orange'));
+  tx.store.add(newCourseObj('GRW', 'grw', 'chocolate'));
   tx.store.add(newCourseObj('Informatik', 'inf', 'grey'));
+  tx.store.add(newCourseObj('Kunst', 'kun', 'goldenrod'));
   tx.store.add(newCourseObj('Mathematik', 'mat', 'crimson'));
   tx.store.add(newCourseObj('Musik', 'mus', 'darkorchid'));
   tx.store.add(newCourseObj('Physik', 'phy', 'peru'));
   tx.store.add(newCourseObj('Sport', 'spo', 'cyan'));
+  tx.store.add(newCourseObj('Transjob', 'tra', 'dimgrey'));
 
   await tx.done;
   return;

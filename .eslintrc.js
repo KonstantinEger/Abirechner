@@ -10,6 +10,8 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
   ],
   rules: {
-    '@typescript-eslint/no-non-null-assertion': 0
+    '@typescript-eslint/no-non-null-assertion': 0,
+    'quotes': ['error', 'single'],
+    'brace-style': ['error', '1tbs']
   }
 };

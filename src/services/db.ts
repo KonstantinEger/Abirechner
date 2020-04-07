@@ -2,7 +2,7 @@ import { openDB, DBSchema, IDBPDatabase } from 'idb';
 import { getCourseCardData } from '../components/CourseCard';
 import { avgArray } from './utils';
 
-interface ICourse {
+interface Course {
   name: string;
   short_name: string;
   color: string;
@@ -10,16 +10,16 @@ interface ICourse {
   exams: [number[], number[], number[], number[]];
 }
 
-interface IAbiDBSchema extends DBSchema {
+interface AbiDBSchema extends DBSchema {
   courses: {
-    value: ICourse;
+    value: Course;
     key: number;
     indexes: { 'by-short-name': string };
-  }
+  };
 }
 
-function openDataBase(): Promise<IDBPDatabase<IAbiDBSchema>> {
-  return openDB<IAbiDBSchema>('abi-db', 1, {
+function openDataBase(): Promise<IDBPDatabase<AbiDBSchema>> {
+  return openDB<AbiDBSchema>('abi-db', 1, {
     upgrade(db) {
       if (db.objectStoreNames.contains('courses') === false) {
         const store = db.createObjectStore('courses', {
@@ -35,16 +35,16 @@ function openDataBase(): Promise<IDBPDatabase<IAbiDBSchema>> {
   });
 }
 
-async function coursesAreInDB(db: IDBPDatabase<IAbiDBSchema>): Promise<boolean> {
+async function coursesAreInDB(db: IDBPDatabase<AbiDBSchema>): Promise<boolean> {
   const tx = db.transaction('courses');
   return await tx.store.get(1) === undefined ? false : true;
 }
 
-async function createCoursesInDB(db: IDBPDatabase<IAbiDBSchema>): Promise<void> {
-  function newCourseObj(name: string, shortName: string, color: string): ICourse {
+async function createCoursesInDB(db: IDBPDatabase<AbiDBSchema>): Promise<void> {
+  function newCourseObj(name: string, shortName: string, color: string): Course {
     return {
       name: name,
-      short_name: shortName,
+      'short_name': shortName,
       color: color,
       marks: [[], [], [], []],
       exams: [[], [], [], []]
@@ -78,7 +78,7 @@ async function getSemesterAverage(semester: number): Promise<number | null> {
   const courses = await db.transaction('courses').store.getAll();
 
   const averages: Array<number> = [];
-  for (let course of courses) {
+  for (const course of courses) {
     const { courseAvg } = getCourseCardData(semester, course);
     if (courseAvg !== null) averages.push(courseAvg);
   }
@@ -93,6 +93,6 @@ export {
   coursesAreInDB,
   createCoursesInDB,
   getSemesterAverage,
-  ICourse,
-  IAbiDBSchema
+  Course,
+  AbiDBSchema,
 };

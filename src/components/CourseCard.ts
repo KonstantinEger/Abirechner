@@ -1,12 +1,12 @@
-import { ICourse } from "../services/db";
+import { Course } from '../services/db';
 import { avgArray, preciseRound } from '../services/utils';
 
-interface ICourseCardData {
+interface CourseCardData {
   html: string;
   courseAvg: number | null;
 }
 
-function getCourseCardData(semester: number, course: ICourse): ICourseCardData {
+function getCourseCardData(semester: number, course: Course): CourseCardData {
   const examsAvg = avgArray(course.exams[semester]);
   const marksAvg = avgArray(course.marks[semester]);
   const courseAvg = isNaN(examsAvg) 

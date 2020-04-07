@@ -4,7 +4,7 @@ import { displaySemesterAvg } from './services/updateDOM';
 
 import('./handlers');
 
-(async () => {
+(async (): Promise<void> => {
   const db = await openDB();
 
   if (!(await coursesAreInDB(db))) {
@@ -16,7 +16,7 @@ import('./handlers');
     const courses = await tx.store.getAll();
     for (let sem = 0; sem < 4; sem++) {
       const $parentEl = document.querySelector(`#semester-${sem + 1}-body`)!;
-      for (let course of courses) {
+      for (const course of courses) {
         const { html } = getCourseCardData(sem, course);
         $parentEl.innerHTML += html;
       }

@@ -3,13 +3,12 @@ import { getCourseCardData } from './components/CourseCard';
 import { openDB, getSemesterAverage } from './services/db';
 import { displaySemesterAvg } from './services/updateDOM';
 
-// @ts-ignore
-globalThis.handleAddGrade = async (event: MouseEvent) => {
+async function handleAddGrade(event: MouseEvent): Promise<void> {
   const { aborted, grade, gradeType } = await displayAddGradeModal();
 
   if (aborted === true) return;
 
-  const $triggerBtn = <HTMLButtonElement>event.target;
+  const $triggerBtn = event.target as HTMLButtonElement;
   const courseShortName = $triggerBtn.id.split('-')[0];
   const semester = parseInt($triggerBtn.id.split('-')[1]);
 
@@ -39,4 +38,8 @@ globalThis.handleAddGrade = async (event: MouseEvent) => {
   $prevElement.outerHTML = html;
 
   displaySemesterAvg(semester, await getSemesterAverage(semester));
-};
+}
+
+// eslint-disable-next-line
+(globalThis as any).handleAddGrade = handleAddGrade;
+

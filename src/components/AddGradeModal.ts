@@ -1,10 +1,10 @@
-interface IAddGradeModal {
+interface AddGradeModal {
   aborted: boolean;
   gradeType: 'exam' | 'mark';
   grade: number;
 }
 
-function displayAddGradeModal(): Promise<IAddGradeModal> {
+function displayAddGradeModal(): Promise<AddGradeModal> {
   return new Promise((resolve) => {
     const bgElement = document.createElement('div');
     bgElement.className = 'modal-bg';
@@ -27,10 +27,9 @@ function displayAddGradeModal(): Promise<IAddGradeModal> {
     const doneBtn = document.createElement('button');
     doneBtn.innerText = 'FERTIG';
     doneBtn.addEventListener('click', () => {
-      const gradeType = 
-        <'exam' | 'mark'>bgElement
-          .querySelector<HTMLSelectElement>('select#type-select')!
-          .value;
+      const gradeType = bgElement
+        .querySelector<HTMLSelectElement>('select#type-select')!
+        .value as 'exam' | 'mark';
 
       const grade = parseInt(
         bgElement.querySelector<HTMLInputElement>('input#grade-input')!.value

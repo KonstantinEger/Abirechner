@@ -20,7 +20,7 @@ interface AbiDBSchema extends DBSchema {
 
 function openDataBase(): Promise<IDBPDatabase<AbiDBSchema>> {
   return openDB<AbiDBSchema>('abi-db', 1, {
-    upgrade(db) {
+    upgrade(db: IDBPDatabase<AbiDBSchema>) {
       if (db.objectStoreNames.contains('courses') === false) {
         const store = db.createObjectStore('courses', {
           keyPath: 'id',

@@ -10,7 +10,15 @@ export default [{
     format: 'es',
     chunkFileNames: '[name]-chunk.js'
   },
-  plugins: [resolve(), ts(), terser()]
+  plugins: [
+    resolve(),
+    ts(),
+    terser({
+      output: {
+        comments: false
+      }
+    })
+  ]
 },{
   input: 'src/sw.js',
   output: {

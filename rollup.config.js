@@ -4,6 +4,15 @@ import ts from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
 import rimraf from 'rimraf';
+import { processString as minifyCSS } from 'uglifycss';
+import { minify as minifyHTML } from 'html-minifier';
+
+const minifyHTMLOptions = {
+  collapseWhitespace: true,
+  removeTagWhitespace: true,
+  minifyCSS: true,
+  minifyJS: true
+}
 
 rimraf.sync('public');
 
@@ -24,7 +33,20 @@ export default [{
     }),
     copy({
       targets: [
-        { src: 'src/static/*', dest: 'public/' }
+        {
+          src: 'src/static/index.html',
+          dest: 'public/',
+          transform: buf => minifyHTML(buf.toString('utf8'), minifyHTMLOptions)
+        },
+        {
+          src: 'src/static/styles/main.css',
+          dest: 'public/styles/',
+          transform: buf => minifyCSS(buf.toString('utf8'))
+        },
+        {
+          src: 'src/static/manifest.json',
+          dest: 'public/'
+        }
       ]
     })
   ]
@@ -34,5 +56,5 @@ export default [{
     file: 'public/sw.js',
     format: 'iife'
   },
-  plugins: [json()]
+  plugins: [json(), terser()]
 }];

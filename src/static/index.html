@@ -24,6 +24,16 @@
       color: var(--text-color);
     }
 
+    .pages {
+      display: grid;
+      grid-template-columns: repeat(2, 100vw);
+      overflow-x: hidden;
+    }
+
+    .page {
+      background-color: var(--bg-color);
+    }
+
     header {
       background-color: var(--theme);
       padding: 20px 5px;
@@ -53,42 +63,53 @@
   <title>Abirechner</title>
 </head>
 <body>
-  <header>
-    abirechner
-  </header>
-
-  <div class="scroll-snap-container">
-    <section class="scroll-snap-element">
-      <div class="semester-header">
-        Klasse 11/1
-        <span class="semester-avg"></span>
+  <div class="pages">
+    <div class="page" id="courses-page">
+      <header>
+        Deine Noten
+        <button onclick="animToCalculator()">Rechner</button>
+      </header>
+    
+      <div class="scroll-snap-container">
+        <section class="scroll-snap-element">
+          <div class="semester-header">
+            Klasse 11/1
+            <span class="semester-avg"></span>
+          </div>
+          <div id="semester-1-body"></div>
+        </section>
+    
+        <section class="scroll-snap-element">
+          <div class="semester-header">
+            Klasse 11/2
+            <span class="semester-avg"></span>
+          </div>
+          <div id="semester-2-body"></div>
+        </section>
+    
+        <section class="scroll-snap-element">
+          <div class="semester-header">
+            Klasse 12/1
+            <span class="semester-avg"></span>
+          </div>
+          <div id="semester-3-body"></div>
+        </section>
+    
+        <section class="scroll-snap-element">
+          <div class="semester-header">
+            Klasse 12/2
+            <span class="semester-avg"></span>
+          </div>
+          <div id="semester-4-body"></div>
+        </section>
       </div>
-      <div id="semester-1-body"></div>
-    </section>
+    </div>
 
-    <section class="scroll-snap-element">
-      <div class="semester-header">
-        Klasse 11/2
-        <span class="semester-avg"></span>
-      </div>
-      <div id="semester-2-body"></div>
-    </section>
-
-    <section class="scroll-snap-element">
-      <div class="semester-header">
-        Klasse 12/1
-        <span class="semester-avg"></span>
-      </div>
-      <div id="semester-3-body"></div>
-    </section>
-
-    <section class="scroll-snap-element">
-      <div class="semester-header">
-        Klasse 12/2
-        <span class="semester-avg"></span>
-      </div>
-      <div id="semester-4-body"></div>
-    </section>
+    <div class="page" id="calculator-page">
+      <header>
+        Rechner
+      </header>
+    </div>
   </div>
 
   <link rel="stylesheet" href="./styles/main.css">

@@ -40,6 +40,13 @@ async function handleAddGrade(event: MouseEvent): Promise<void> {
   displaySemesterAvg(semester, await getSemesterAverage(semester));
 }
 
-// eslint-disable-next-line
-(globalThis as any).handleAddGrade = handleAddGrade;
+function animToCalculator(): void {
+  const $calcPage = document.querySelector<HTMLDivElement>('.page#calculator-page')!;
+  $calcPage.style.transition = '0.2s ease-out';
+  $calcPage.style.transform = 'translateX(-100vw)';
+}
 
+/* eslint-disable */
+(globalThis as any).handleAddGrade = handleAddGrade;
+(globalThis as any).animToCalculator = animToCalculator;
+/* eslint-enable */

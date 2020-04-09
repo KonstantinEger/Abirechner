@@ -41,7 +41,8 @@ async function handleAddGrade(event: MouseEvent): Promise<void> {
 }
 
 function animToCalculator(): void {
-  const $calcPage = document.querySelector<HTMLDivElement>('.page#calculator-page')!;
+  const selector = '.page#calculator-page';
+  const $calcPage = document.querySelector<HTMLDivElement>(selector)!;
   $calcPage.style.transition = '0.2s ease-out';
   $calcPage.style.transform = 'translateX(-100vw)';
 }

@@ -41,10 +41,10 @@ async function coursesAreInDB(db: IDBPDatabase<AbiDBSchema>): Promise<boolean> {
 }
 
 async function createCoursesInDB(db: IDBPDatabase<AbiDBSchema>): Promise<void> {
-  function newCourseObj(name: string, shortName: string, color: string): Course {
+  function newCourseObj(name: string, short: string, color: string): Course {
     return {
       name: name,
-      'short_name': shortName,
+      'short_name': short,
       color: color,
       marks: [[], [], [], []],
       exams: [[], [], [], []]

@@ -27,7 +27,9 @@ function getCourseCardData(semester: number, course: Course): CourseCardData {
     >
       <div class="course-card-header">
         ${course.name}
-        <span class="course-avg">&oslash;${isNaN(roundCourseAvg) ? '-' : roundCourseAvg}</span>
+        <span class="course-avg">
+          &oslash;${isNaN(roundCourseAvg) ? '-' : roundCourseAvg}
+        </span>
         <button
           id="${course.short_name}-${semester}"
           class="add-grade-btn"
@@ -39,13 +41,17 @@ function getCourseCardData(semester: number, course: Course): CourseCardData {
 
       <div class="course-card-body">
         <b>Klausuren</b>
-        <span class="grades-avg">&oslash;${isNaN(roundExamsAvg) ? '-' : roundExamsAvg}</span>
+        <span class="grades-avg">
+          &oslash;${isNaN(roundExamsAvg) ? '-' : roundExamsAvg}
+        </span>
         <br />
           ${course.exams[semester].toString()}
         <br />
 
         <b>Leistungskontrollen</b>
-        <span class="grades-avg">&oslash;${isNaN(roundMarksAvg) ? '-' : roundMarksAvg}</span>
+        <span class="grades-avg">
+          &oslash;${isNaN(roundMarksAvg) ? '-' : roundMarksAvg}
+        </span>
         <br />
           ${course.marks[semester].toString()}
         <br />

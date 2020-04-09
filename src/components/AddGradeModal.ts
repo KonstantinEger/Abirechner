@@ -18,7 +18,10 @@ function displayAddGradeModal(): Promise<AddGradeModalResult> {
             <option value="exam" selected>Klausur</option>
             <option value="mark" selected>Sonstige Note</option>
           </select>
-          <input type="number" min="0" max="15" value="15" step="1" id="grade-input" />
+          <input 
+            type="number" min="0" max="15" 
+            value="15" step="1" id="grade-input"
+          />
           <div id="actions-container"></div>
         </div>
       </div>

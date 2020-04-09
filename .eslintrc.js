@@ -14,6 +14,7 @@ module.exports = {
     'quotes': ['error', 'single'],
     'brace-style': ['error', '1tbs'],
     'no-extra-parens': 'error',
-    'arrow-parens': ['error', 'always']
+    'arrow-parens': ['error', 'always'],
+    'max-len': 'warn'
   }
 };

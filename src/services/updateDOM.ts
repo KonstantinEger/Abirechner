@@ -1,7 +1,8 @@
 import { preciseRound } from './utils';
 
 function displaySemesterAvg(sem: number, avg: number | null): void {
-  const $allHeaders = document.querySelectorAll<HTMLDivElement>('div.semester-header');
+  const selector = 'div.semester-header';
+  const $allHeaders = document.querySelectorAll<HTMLDivElement>(selector);
   const $header = $allHeaders[sem];
 
   const avgDisplay = avg === null ? '-' : preciseRound(avg, 2);

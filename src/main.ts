@@ -1,7 +1,12 @@
-import { openDB, coursesAreInDB, createCoursesInDB, getSemesterAverage } from './services/db';
+import { getCourseCardData } from './components/CourseCard';
 import { displaySemesterAvg } from './services/updateDOM';
 import { range } from './services/utils';
-import { getCourseCardData } from './components/CourseCard';
+import {
+  openDB,
+  coursesAreInDB,
+  createCoursesInDB,
+  getSemesterAverage
+} from './services/db';
 
 import('./handlers');
 

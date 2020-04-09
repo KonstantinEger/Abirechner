@@ -1,10 +1,10 @@
-interface AddGradeModal {
+interface AddGradeModalResult {
   aborted: boolean;
   gradeType: 'exam' | 'mark';
   grade: number;
 }
 
-function displayAddGradeModal(): Promise<AddGradeModal> {
+function displayAddGradeModal(): Promise<AddGradeModalResult> {
   return new Promise((resolve) => {
     const bgElement = document.createElement('div');
     bgElement.className = 'modal-bg';

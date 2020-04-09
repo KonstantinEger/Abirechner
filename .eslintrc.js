@@ -12,6 +12,8 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-non-null-assertion': 0,
     'quotes': ['error', 'single'],
-    'brace-style': ['error', '1tbs']
+    'brace-style': ['error', '1tbs'],
+    'no-extra-parens': 'error',
+    'arrow-parens': ['error', 'always']
   }
 };

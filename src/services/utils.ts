@@ -8,7 +8,7 @@ function preciseRound(x: number, numDigits: number): number {
 }
 
 function range(from: number, to: number): number[] {
-  return [...Array(to - from).keys()].map(index => index + from);
+  return [...Array(to - from).keys()].map((index) => index + from);
 }
 
 export {

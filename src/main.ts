@@ -8,7 +8,7 @@ import('./handlers');
 (async (): Promise<void> => {
   const db = await openDB();
 
-  if (!(await coursesAreInDB(db))) {
+  if (!await coursesAreInDB(db)) {
     await createCoursesInDB(db);
   }
 

@@ -2,6 +2,10 @@ import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import ts from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
+import copy from 'rollup-plugin-copy';
+import rimraf from 'rimraf';
+
+rimraf.sync('public');
 
 export default [{
   input: 'src/main.ts',
@@ -17,6 +21,11 @@ export default [{
       output: {
         comments: false
       }
+    }),
+    copy({
+      targets: [
+        { src: 'src/static/*', dest: 'public/' }
+      ]
     })
   ]
 },{

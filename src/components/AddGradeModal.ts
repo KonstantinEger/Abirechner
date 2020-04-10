@@ -28,6 +28,7 @@ function displayAddGradeModal(): Promise<AddGradeModalResult> {
     `;
 
     const doneBtn = document.createElement('button');
+    doneBtn.classList.add('btn');
     doneBtn.innerText = 'FERTIG';
     doneBtn.addEventListener('click', () => {
       const gradeType = bgElement
@@ -43,7 +44,7 @@ function displayAddGradeModal(): Promise<AddGradeModalResult> {
     });
 
     const abortBtn = document.createElement('button');
-    abortBtn.classList.add('secundary');
+    abortBtn.classList.add('btn', 'secundary');
     abortBtn.innerText = 'ABBRECHEN';
     abortBtn.addEventListener('click', () => {
       document.body.removeChild(bgElement);

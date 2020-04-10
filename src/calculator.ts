@@ -1,12 +1,9 @@
 import { range } from './services/utils';
 
-const writtenPlaceholder = `
-<option value="_" disabled selected hidden>Schriftliche Prüfung</option>
-`;
-
-const verbalPlaceholder = `
-<option value="_" disabled selected hidden>Mündliche Prüfung</option>
-`;
+const placeholder = `
+<option value="_" disabled selected hidden>
+  -- Prüfungsfach auswählen --
+</option>`;
 
 function getPageHTML(): string {
   return `
@@ -19,8 +16,8 @@ function getPageHTML(): string {
 
     <select id="select-p1" onchange="handleCourseSelection(event)">
       <option value="deu">Deutsch</option>
-      <option value="mat">Mathe</option>
-      ${writtenPlaceholder}
+      <option value="mat">Mathematik</option>
+      ${placeholder}
     </select>
 
     <select disabled id="select-p2" onchange="handleCourseSelection(event)">
@@ -31,22 +28,22 @@ function getPageHTML(): string {
       <option value="che">Chemie</option>
       <option value="bio">Biologie</option>
       <option value="kun">Kunst</option>
-      ${writtenPlaceholder}
+      ${placeholder}
     </select>
 
     <select disabled id="select-p3">
-      ${writtenPlaceholder}
+      ${placeholder}
     </select>
 
     <select disabled id="select-p4">
-      ${verbalPlaceholder}
+      ${placeholder}
     </select>
 
     <select disabled id="select-p5">
-      ${verbalPlaceholder}
+      ${placeholder}
     </select>
 
-    <button onclick="handleCheckBtnClick()">check</button>
+    <button class="btn" onclick="handleCheckBtnClick()">check</button>
     <div id="checkResultContainer"></div>
   `;
 }
@@ -62,7 +59,7 @@ function handleCourseSelection(event: Event): void {
       const $p3Select = document.querySelector('#select-p3')!;
       $p3Select.innerHTML = `
         <option selected value="${selectVal === 'deu' ? 'mat' : 'deu'}">
-          ${selectVal === 'deu' ? 'Mathe' : 'Deutsch'}
+          ${selectVal === 'deu' ? 'Mathematik' : 'Deutsch'}
         </option>
       `;
       break;
@@ -87,8 +84,8 @@ function handleCourseSelection(event: Event): void {
         <option value="kun">Kunst</option>
         <option value="info">Informatik</option>
       `;
-      $p4Select.innerHTML = verbalPlaceholder + optionsHTML;
-      $p5Select.innerHTML = verbalPlaceholder + optionsHTML;
+      $p4Select.innerHTML = placeholder + optionsHTML;
+      $p5Select.innerHTML = placeholder + optionsHTML;
       break;
     }
   }
@@ -116,7 +113,7 @@ function checkValidConstell(constell: string[]): ChoicesCheckResult {
   if (!constell.includes('deu') || !constell.includes('mat')) {
     return {
       isValid: false,
-      error: 'Mathe und Deutsch müssen geprüft werden.'
+      error: 'Mathematik und Deutsch müssen geprüft werden.'
     };
   }
 

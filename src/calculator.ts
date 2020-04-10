@@ -1,5 +1,11 @@
 function init(): void {
   const pageBodyHTML = `
+    <header>
+      Rechner
+      <button onclick="animCloseCalculator()">
+        zurück
+      </button>
+    </header>
     <h1>Rechner</h1>
   `;
 

@@ -41,14 +41,22 @@ async function handleAddGrade(event: MouseEvent): Promise<void> {
 }
 
 function animToCalculator(): void {
-  import('./calculator').then(module => module.init());
+  import('./calculator').then((module) => module.init());
   const selector = '.page#calculator-page';
   const $calcPage = document.querySelector<HTMLDivElement>(selector)!;
   $calcPage.style.transition = '0.2s ease-out';
   $calcPage.style.transform = 'translateX(-100vw)';
 }
 
+function animCloseCalculator(): void {
+  const selector = '.page#calculator-page';
+  const $calcPage = document.querySelector<HTMLDivElement>(selector)!;
+  $calcPage.style.transition = '0.2s ease-in-out';
+  $calcPage.style.transform = 'translateX(100vw)';
+}
+
 /* eslint-disable */
 (globalThis as any).handleAddGrade = handleAddGrade;
 (globalThis as any).animToCalculator = animToCalculator;
+(globalThis as any).animCloseCalculator = animCloseCalculator;
 /* eslint-enable */

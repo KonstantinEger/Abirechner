@@ -35,6 +35,9 @@ function getPageHTML(): string {
     <select disabled id="select-p5">
       <option value="" disabled selected hidden>Mündliche Prüfung</option>
     </select>
+
+    <button onclick="handleCheckBtnClick()">check</button>
+    <div id="checkResultContainer"></div>
   `;
 }
 
@@ -83,6 +86,64 @@ function handleCourseSelection(event: Event): void {
 
 // eslint-disable-next-line
 (globalThis as any).handleCourseSelection = handleCourseSelection;
+
+function checkValidConstell(constell: string[]): boolean {
+  /**
+   * RULES:
+   * 1) DEU and MAT are required!
+   * 2) One of the possible advanced-courses-2 is required!
+   * 3) One of GES, GEO or GRW is required!
+   * 4) One of PHY, BIO or CHE is required!
+   * 5) There cannot be any duplicates!
+   */
+
+  if (!constell.includes('deu') || !constell.includes('mat')) {
+    return false;
+  }
+
+  // RULE 2
+  {
+    const result = ['eng', 'fra', 'ges', 'phy', 'che', 'bio', 'kun']
+    .map((course) => constell.includes(course))
+    .reduce((found, course) => {
+      if (course === true) {
+        return true;
+      } else return found;
+    }, false);
+
+    if (result === false) return false;
+  }
+
+  // RULE 3
+  if (
+    !constell.includes('ges') &&
+    !constell.includes('geo') &&
+    !constell.includes('grw')
+  ) return false;
+
+  // RULE 4
+  if (
+    !constell.includes('phy') &&
+    !constell.includes('bio') &&
+    !constell.includes('che')
+  ) return false;
+
+  // RULE 5
+  if (new Set(constell).size !== constell.length) return false;
+
+  return true;
+}
+
+function handleCheckBtnClick(): void {
+  // JUST A PROTOTYPE
+  const checkResult = checkValidConstell([/* needs real values here */]);
+  const contSelector = '#checkResultContainer';
+  const $resCont = document.querySelector(contSelector)!;
+  $resCont.textContent = checkResult + '';
+}
+
+// eslint-disable-next-line
+(globalThis as any).handleCheckBtnClick = handleCheckBtnClick;
 
 function renderPage(pageHTML: string): void {
   const selector = '#calc-page-body';

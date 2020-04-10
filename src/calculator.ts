@@ -1,3 +1,13 @@
+import { range } from './services/utils';
+
+const writtenPlaceholder = `
+<option value="_" disabled selected hidden>Schriftliche Prüfung</option>
+`;
+
+const verbalPlaceholder = `
+<option value="_" disabled selected hidden>Mündliche Prüfung</option>
+`;
+
 function getPageHTML(): string {
   return `
     <header>
@@ -10,7 +20,7 @@ function getPageHTML(): string {
     <select id="select-p1" onchange="handleCourseSelection(event)">
       <option value="deu">Deutsch</option>
       <option value="mat">Mathe</option>
-      <option value="" disabled selected hidden>Schriftliche Prüfung</option>
+      ${writtenPlaceholder}
     </select>
 
     <select disabled id="select-p2" onchange="handleCourseSelection(event)">
@@ -21,19 +31,19 @@ function getPageHTML(): string {
       <option value="che">Chemie</option>
       <option value="bio">Biologie</option>
       <option value="kun">Kunst</option>
-      <option value="" disabled selected hidden>Schriftliche Prüfung</option>
+      ${writtenPlaceholder}
     </select>
 
     <select disabled id="select-p3">
-      <option value="" disabled selected hidden>Schriftliche Prüfung</option>
+      ${writtenPlaceholder}
     </select>
 
     <select disabled id="select-p4">
-      <option value="" disabled selected hidden>Mündliche Prüfung</option>
+      ${verbalPlaceholder}
     </select>
 
     <select disabled id="select-p5">
-      <option value="" disabled selected hidden>Mündliche Prüfung</option>
+      ${verbalPlaceholder}
     </select>
 
     <button onclick="handleCheckBtnClick()">check</button>
@@ -77,8 +87,8 @@ function handleCourseSelection(event: Event): void {
         <option value="kun">Kunst</option>
         <option value="info">Informatik</option>
       `;
-      $p4Select.insertAdjacentHTML('beforeend', optionsHTML);
-      $p5Select.insertAdjacentHTML('beforeend', optionsHTML);
+      $p4Select.innerHTML = verbalPlaceholder + optionsHTML;
+      $p5Select.innerHTML = verbalPlaceholder + optionsHTML;
       break;
     }
   }
@@ -97,6 +107,7 @@ function checkValidConstell(constell: string[]): boolean {
    * 5) There cannot be any duplicates!
    */
 
+  // RULE 1
   if (!constell.includes('deu') || !constell.includes('mat')) {
     return false;
   }
@@ -135,8 +146,12 @@ function checkValidConstell(constell: string[]): boolean {
 }
 
 function handleCheckBtnClick(): void {
-  // JUST A PROTOTYPE
-  const checkResult = checkValidConstell([/* needs real values here */]);
+  const chosenCourses = range(1, 6)
+  .map((num) => {
+    return document.querySelector<HTMLSelectElement>(`#select-p${num}`)!.value;
+  });
+
+  const checkResult = checkValidConstell(chosenCourses);
   const contSelector = '#checkResultContainer';
   const $resCont = document.querySelector(contSelector)!;
   $resCont.textContent = checkResult + '';

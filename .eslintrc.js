@@ -15,6 +15,6 @@ module.exports = {
     'brace-style': ['error', '1tbs'],
     'no-extra-parens': 'error',
     'arrow-parens': ['error', 'always'],
-    'max-len': 'warn'
+    'max-len': ['warn', { ignoreStrings: true }]
   }
 };

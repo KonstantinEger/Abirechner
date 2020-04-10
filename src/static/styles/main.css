@@ -93,3 +93,17 @@
   background-color: #dddddd;
   color: #333333;
 }
+
+div.success {
+  border: 1px solid rgb(0, 170, 0);
+  border-radius: 5px;
+  background-color: rgba(0, 170, 0, 0.5);
+  padding: 7px 4px;
+}
+
+div.error {
+  border: 1px solid rgb(170, 0, 0);
+  border-radius: 5px;
+  background-color: rgba(170, 0, 0, 0.5);
+  padding: 7px 4px;
+}

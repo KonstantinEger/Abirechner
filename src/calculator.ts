@@ -97,7 +97,12 @@ function handleCourseSelection(event: Event): void {
 // eslint-disable-next-line
 (globalThis as any).handleCourseSelection = handleCourseSelection;
 
-function checkValidConstell(constell: string[]): boolean {
+interface ChoicesCheckResult {
+  isValid: boolean;
+  error: string;
+}
+
+function checkValidConstell(constell: string[]): ChoicesCheckResult {
   /**
    * RULES:
    * 1) DEU and MAT are required!
@@ -109,7 +114,10 @@ function checkValidConstell(constell: string[]): boolean {
 
   // RULE 1
   if (!constell.includes('deu') || !constell.includes('mat')) {
-    return false;
+    return {
+      isValid: false,
+      error: 'Mathe und Deutsch müssen geprüft werden.'
+    };
   }
 
   // RULE 2
@@ -122,7 +130,12 @@ function checkValidConstell(constell: string[]): boolean {
       } else return found;
     }, false);
 
-    if (result === false) return false;
+    if (result === false) {
+      return {
+        isValid: false,
+        error: 'Eines der Leistungskursfächer muss geprüft werden.'
+      };
+    }
   }
 
   // RULE 3
@@ -130,19 +143,34 @@ function checkValidConstell(constell: string[]): boolean {
     !constell.includes('ges') &&
     !constell.includes('geo') &&
     !constell.includes('grw')
-  ) return false;
+  ) {
+    return {
+      isValid: false,
+      error: 'Eines der Fächer aus dem Gesellschaftlichen Aufgabenbereich muss geprüft werden.'
+    };
+  }
 
   // RULE 4
   if (
     !constell.includes('phy') &&
     !constell.includes('bio') &&
     !constell.includes('che')
-  ) return false;
+  ) {
+    return {
+      isValid: false,
+      error: 'Eine Naturwissenschaft muss belegt werden.'
+    };
+  }
 
   // RULE 5
-  if (new Set(constell).size !== constell.length) return false;
+  if (new Set(constell).size !== constell.length) {
+    return {
+      isValid: false,
+      error: 'Kein Kurs kann doppelt geprüft werden.'
+    };
+  }
 
-  return true;
+  return { isValid: true, error: '' };
 }
 
 function handleCheckBtnClick(): void {
@@ -154,7 +182,12 @@ function handleCheckBtnClick(): void {
   const checkResult = checkValidConstell(chosenCourses);
   const contSelector = '#checkResultContainer';
   const $resCont = document.querySelector(contSelector)!;
-  $resCont.textContent = checkResult + '';
+  
+  if (checkResult.isValid) {
+    $resCont.innerHTML = '<div class="success">Prüfungsfächer möglich</div>';
+  } else {
+    $resCont.innerHTML = `<div class="error">${checkResult.error}</div>`;
+  }
 }
 
 // eslint-disable-next-line

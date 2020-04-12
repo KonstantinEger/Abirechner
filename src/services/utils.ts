@@ -3,6 +3,10 @@ function avgArray(array: Array<number>): number {
   return sum / array.length;
 }
 
+function highestFirst(arr: number[]): number[] {
+  return arr.sort((a, b) => a < b ? 1 : -1);
+}
+
 function preciseRound(x: number, numDigits: number): number {
   return parseFloat(x.toFixed(numDigits));
 }
@@ -13,6 +17,7 @@ function range(from: number, to: number): number[] {
 
 export {
   avgArray,
+  highestFirst,
   preciseRound,
   range
 }

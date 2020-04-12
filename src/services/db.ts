@@ -88,57 +88,8 @@ async function getSemesterAverage(semester: number): Promise<number | null> {
     : avgArray(averages);
 }
 
-interface FinalResult {
-  points: { A: number; B: number };
-  grade: number;
-  semestersUsed: { shortName: string; points: number[] }[];
-}
-
-async function calcFinalResult(/*testNames: string[]*/): Promise<FinalResult> {
-  // BLOCK A:
-  // ! advanced-courses are included 2x
-  // ! total amount of semesters must equal 40
-  // => fill with the best ones which haven't been used already at the end.
-
-  // get all semester averages for the courses which are tested (testNames)
-  // ! each of the following rules must check if it's already been fulfilled
-  // ! best semesters are included first
-  // 4 semester averages of a foreign language
-  // 2 semester averages of KUN or MUS
-  // 4 semester averages of GES
-  // 8 semester averages of PHY, BIO or CHEM
-  // 2 semester averages of GEO or GRW
-  // 2 semester averages of ETH
-
-  // calculate points for block A
-  // points => ((sum of used semesters) / (num of used semesters)) * 40
-  // points are rounded
-
-  // BLOCK B
-  // average the semester averages for each examined course
-  // sum up these averages
-  // multiply by 4
-
-  // final points = sum of BlockA & BlockB
-
-  // TABLE FOR POINTS => GRADE
-  // 300                => 4.0
-  // 301 to 301+17=318  => 3.9
-  // 319 to 319+17=336  => 3.8
-  // ...
-  // 805 to 805+17=822  => 1.1
-  // 823 to 900         => 1.0
-
-  return {
-    points: { A: 0, B: 0 },
-    grade: 0,
-    semestersUsed: []
-  }
-}
-
 export {
   openDataBase as openDB,
-  calcFinalResult,
   coursesAreInDB,
   createCoursesInDB,
   getSemesterAverage,

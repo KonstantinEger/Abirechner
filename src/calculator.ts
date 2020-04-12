@@ -1,4 +1,6 @@
 import { range } from './services/utils';
+import { openDB } from './services/db';
+import { getCourseCardData } from './components/CourseCard';
 
 const placeholder = `
 <option value="_" disabled selected hidden>
@@ -170,7 +172,118 @@ function checkValidConstell(constell: string[]): ChoicesCheckResult {
   return { isValid: true, error: '' };
 }
 
-function handleCalcBtnClick(): void {
+interface FinalResult {
+  points: { A: number; B: number };
+  grade: number;
+  semestersUsed: { shortName: string; points: number[] }[];
+}
+
+interface AveragedCourse {
+  shortName: string;
+  semesters: number[];
+}
+
+async function calcFinalResult(testNames: string[]): Promise<FinalResult> {
+  const db = await openDB();
+  const courses: AveragedCourse[] =
+    (await db.transaction('courses').store.getAll())
+    .map((course) => {
+      const semesters: number[] =
+        range(0, 5)
+        .map((semIndex) => {
+          const { courseAvg } = getCourseCardData(semIndex, course);
+          if (courseAvg === null) {
+            // What if it's a course you dont have? E.g. INF
+            // these need to be ignored => need a settigs page to define which
+            // courses should be ignored
+            throw new Error(`Err calc average ${course.name} Sem: ${semIndex}`);
+          }
+          return courseAvg;
+        });
+
+      return { shortName: course.short_name, semesters };
+    });
+  const useSemesters: { shortName: string; points: number }[] = [];
+
+  // BLOCK A:
+  // ! advanced-courses are included 2x
+  // ! total amount of semesters must equal 40
+  // => fill with the best ones which haven't been used already at the end.
+
+  {
+    const advancedCourses = courses.filter((course) => {
+      if (
+        course.shortName === testNames[0] ||
+        course.shortName === testNames[1]
+      ) return true;
+      else return false;
+    });
+    
+    advancedCourses.forEach((course) => {
+      range(0, 5).forEach((sem) => {
+        // Dont have to do it twice bc they'll be added again w/ tested courses
+        useSemesters.push({
+          shortName: course.shortName,
+          points: course.semesters[sem]
+        });
+      });
+    });
+  }
+
+  // get all semester averages for the courses which are tested (testNames)
+  {
+    const testedCourses = courses.filter((course) => {
+      for (let i = 0; i < testNames.length; i++) {
+        if (course.shortName === testNames[i]) return true;
+      }
+      return false;
+    });
+
+    testedCourses.forEach((course) => {
+      range(0, 5).forEach((sem) => {
+        useSemesters.push({
+          shortName: course.shortName,
+          points: course.semesters[sem]
+        });
+      });
+    });
+  }
+  // ! each of the following rules must check if it's already been fulfilled
+  // ! best semesters are included first
+  // 4 semester averages of a foreign language
+  // 2 semester averages of KUN or MUS
+  // 4 semester averages of GES
+  // 8 semester averages of PHY, BIO or CHEM
+  // 2 semester averages of GEO or GRW
+  // 2 semester averages of ETH
+
+  // calculate points for block A
+  // points => ((sum of used semesters) / (num of used semesters)) * 40
+  // points are rounded
+
+  // BLOCK B
+  // average the semester averages for each examined course
+  // sum up these averages
+  // multiply by 4
+
+  // final points = sum of BlockA & BlockB
+
+  // TABLE FOR POINTS => GRADE
+  // 300                => 4.0
+  // 301 to 301+17=318  => 3.9
+  // 319 to 319+17=336  => 3.8
+  // ...
+  // 805 to 805+17=822  => 1.1
+  // 823 to 900         => 1.0
+
+  return {
+    points: { A: 0, B: 0 },
+    grade: 0,
+    semestersUsed: []
+  }
+}
+
+async function handleCalcBtnClick(): Promise<void> {
   const chosenCourses = range(1, 6)
   .map((num) => {
     return document.querySelector<HTMLSelectElement>(`#select-p${num}`)!.value;
@@ -184,7 +297,10 @@ function handleCalcBtnClick(): void {
     $resCont.innerHTML = '<div class="success">Prüfungsfächer möglich</div>';
   } else {
     $resCont.innerHTML = `<div class="error">${checkResult.error}</div>`;
+    return;
   }
+
+  await calcFinalResult(chosenCourses);
 }
 
 // eslint-disable-next-line

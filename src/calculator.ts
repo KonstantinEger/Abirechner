@@ -43,8 +43,8 @@ function getPageHTML(): string {
       ${placeholder}
     </select>
 
-    <button class="btn" onclick="handleCheckBtnClick()">check</button>
-    <div id="checkResultContainer"></div>
+    <button class="btn" onclick="handleCalcBtnClick()">BERECHNEN</button>
+    <div id="calcResultContainer"></div>
   `;
 }
 
@@ -155,7 +155,7 @@ function checkValidConstell(constell: string[]): ChoicesCheckResult {
   ) {
     return {
       isValid: false,
-      error: 'Eine Naturwissenschaft muss belegt werden.'
+      error: 'Eine Naturwissenschaft muss geprüft werden.'
     };
   }
 
@@ -170,14 +170,14 @@ function checkValidConstell(constell: string[]): ChoicesCheckResult {
   return { isValid: true, error: '' };
 }
 
-function handleCheckBtnClick(): void {
+function handleCalcBtnClick(): void {
   const chosenCourses = range(1, 6)
   .map((num) => {
     return document.querySelector<HTMLSelectElement>(`#select-p${num}`)!.value;
   });
 
   const checkResult = checkValidConstell(chosenCourses);
-  const contSelector = '#checkResultContainer';
+  const contSelector = '#calcResultContainer';
   const $resCont = document.querySelector(contSelector)!;
   
   if (checkResult.isValid) {
@@ -188,7 +188,7 @@ function handleCheckBtnClick(): void {
 }
 
 // eslint-disable-next-line
-(globalThis as any).handleCheckBtnClick = handleCheckBtnClick;
+(globalThis as any).handleCalcBtnClick = handleCalcBtnClick;
 
 function renderPage(pageHTML: string): void {
   const selector = '#calc-page-body';

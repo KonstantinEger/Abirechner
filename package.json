@@ -3,9 +3,17 @@
   "version": "0.1.0",
   "description": "Simple App zur Berechnung der Abinote",
   "main": "index.html",
-  "scripts": {},
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  },
   "author": "KonstantinEger <35273325+KonstantinEger@users.noreply.github.com>",
   "license": "MIT",
-  "devDependencies": {},
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^4.1.1",
+    "rollup": "^2.9.1",
+    "tslib": "^1.11.2",
+    "typescript": "^3.8.3"
+  },
   "dependencies": {}
 }

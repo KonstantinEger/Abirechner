@@ -8,7 +8,7 @@ type Subscription<S> = (newVal: S, oldVal: S | null) => void;
  * ```
  */
 export class AbiStoreElement<S> extends HTMLElement {
-  public static selector = 'abi-store';
+  public static readonly selector = 'abi-store';
 
   private state: S | null = null;
   private subs: Array<Subscription<S>> = [];

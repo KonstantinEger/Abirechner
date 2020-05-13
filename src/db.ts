@@ -54,6 +54,7 @@ export function openDataBase(): Promise<IDBPDatabase<AbiDBSchema>> {
 /**
  * Check if the database has already been initialized and populated with courses.
  * If so, returns true, otherwise false.
+ * @param db database which gets checked
  */
 export async function coursesAreInDB(db: IDBPDatabase<AbiDBSchema>): Promise<boolean> {
   const tx = db.transaction('courses', 'readonly');
@@ -63,6 +64,7 @@ export async function coursesAreInDB(db: IDBPDatabase<AbiDBSchema>): Promise<boo
 /**
  * Populates the database with initial values. Every course is created with
  * empty marks and exams but with a unique color.
+ * @param db database which gets populated
  */
 export async function populateDB(db: IDBPDatabase<AbiDBSchema>): Promise<void> {
   const newCourse = (name: string, short_name: string, color: string): Course => {

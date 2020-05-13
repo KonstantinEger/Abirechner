@@ -4,7 +4,7 @@
   "description": "Simple App zur Berechnung der Abinote",
   "main": "index.html",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c --environment BUILD:production",
     "watch": "rollup -c -w"
   },
   "author": "KonstantinEger <35273325+KonstantinEger@users.noreply.github.com>",
@@ -13,6 +13,7 @@
     "@rollup/plugin-node-resolve": "^7.1.3",
     "@rollup/plugin-typescript": "^4.1.1",
     "rollup": "^2.9.1",
+    "rollup-plugin-terser": "^5.3.0",
     "tslib": "^1.11.2",
     "typescript": "^3.8.3"
   },

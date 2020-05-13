@@ -17,7 +17,7 @@ AbiCourseCardElement.defineIfNot();
 
     for (const course of courses) {
       const courseCardEL = document.createElement('abi-course-card') as AbiCourseCardElement;
-      courseCardEL.setCourse(course);
+      courseCardEL.setCourseAndSem(course, semIdx);
       parentEL?.appendChild(courseCardEL);
     }
   }

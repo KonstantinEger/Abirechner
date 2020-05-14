@@ -1,18 +1,5 @@
 import { Course } from "../db";
-
-/**
- * Selection of util functions used in the abi-course-card element.
- */
-module Utils {
-  /**
-   * Averages an array. If not possible, returns '-'.
-   */
-  export function avgArray(arr: number[]): number | '-' {
-    return arr.length === 0
-      ? '-'
-      : arr.reduce((sum, n) => sum + n, 0) / arr.length;
-  }
-}
+import { replaceTemplates, avgArray } from './utils';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -101,13 +88,17 @@ export class AbiCourseCardElement extends HTMLElement {
     if (!this.course || this.semester === null) throw new Error();
 
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
-    this.replaceTemp(
+
+    const { courseAvg, examsAvg, marksAvg } = this.getAverages();
+
+    replaceTemplates(
+      this,
       [/{{ COLOR }}/, this.course.color],
       [/{{ NAME }}/, this.course.name],
-      [/{{ COURSE_AVG }}/, '-'],
-      [/{{ EXAMS_AVG }}/, Utils.avgArray(this.course.exams[this.semester]) + ''],
+      [/{{ COURSE_AVG }}/, courseAvg ?? '-'],
+      [/{{ EXAMS_AVG }}/, examsAvg ?? '-'],
       [/{{ EXAMS }}/, this.course.exams[this.semester].toString()],
-      [/{{ MARKS_AVG }}/, Utils.avgArray(this.course.marks[this.semester]) + ''],
+      [/{{ MARKS_AVG }}/, marksAvg ?? '-'],
       [/{{ MARKS }}/, this.course.marks[this.semester].toString()]
     );
 
@@ -129,15 +120,26 @@ export class AbiCourseCardElement extends HTMLElement {
     this.semester = semester;
   }
 
-  /**
-   * Replace placeholders in the HTML of the element.
-   * @param values Array of tuples with a matcher and a replace value.
-   */
-  private replaceTemp(...values: [string | RegExp, string][]): void {
-    let innerHTML = this.shadowRoot!.innerHTML;
-    for (const arg of values) {
-      innerHTML = innerHTML.replace(arg[0], arg[1]);
-    }
-    this.shadowRoot!.innerHTML = innerHTML;
-  }
+  private getAverages(): { 
+    courseAvg: number | null;
+    marksAvg: number | null;
+    examsAvg: number | null;
+  } {
+    if (!this.course || this.semester === null) throw new Error();
+
+    const examsAvg = avgArray(this.course.exams[this.semester]);
+    const marksAvg = avgArray(this.course.marks[this.semester]);
+
+    const courseAvg = (examsAvg !== null && marksAvg !== null)
+      ? (examsAvg + marksAvg) / 2
+      : (examsAvg === null && marksAvg === null)
+        ? null
+        : examsAvg ?? marksAvg;
+
+    return {
+      courseAvg,
+      examsAvg,
+      marksAvg
+    };
+   }
 }

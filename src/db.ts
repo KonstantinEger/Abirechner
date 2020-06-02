@@ -3,6 +3,8 @@ import { DBSchema, IDBPDatabase, openDB } from 'idb';
 export const DB_NAME = 'abi-db';
 export const DB_VERSION = 1;
 
+export type GradeType = 'EXAM' | 'MARK';
+
 /**
  * Interface representing the data in the database.
  */

@@ -1,4 +1,4 @@
-import { openDataBase, coursesAreInDB, populateDB } from "./db";
+import { openDataBase, coursesAreInDB, populateDB, Course } from "./db";
 import { range } from "./utils/range";
 import { AbiCourseCardElement } from "./elements/AbiCourseCard";
 
@@ -9,15 +9,22 @@ AbiCourseCardElement.define();
 
   if (!await coursesAreInDB(db)) await populateDB(db);
 
+  const setParent = (parentEL: HTMLDivElement) => (
+    (semIdx: number) => (
+      (course: Course) => {
+        const courseCardEL = document.createElement('abi-course-card') as AbiCourseCardElement;
+        courseCardEL.setCourseAndSem(course, semIdx);
+        parentEL.appendChild(courseCardEL);
+      }
+    )
+  )
+
   const courses = await db.transaction('courses').store.getAll();
 
-  for (const semIdx of range(4)) {
-    const parentEL = document.querySelector(`#semester-${semIdx}-body`);
-
-    for (const course of courses) {
-      const courseCardEL = document.createElement('abi-course-card') as AbiCourseCardElement;
-      courseCardEL.setCourseAndSem(course, semIdx);
-      parentEL?.appendChild(courseCardEL);
-    }
-  }
+  range(4).forEach((semIdx) => {
+    const parent = document.querySelector(`#semester-${semIdx}-body`) as HTMLDivElement;
+    const setSem = setParent(parent);
+    const createCourse = setSem(semIdx);
+    courses.forEach(createCourse);
+  });
 })();

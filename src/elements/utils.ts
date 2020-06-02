@@ -8,7 +8,7 @@ export function avgArray(arr: number[]): number | null {
 }
 
 /**
- * Replace placeholders in the inner HTML of the element.
+ * Replace placeholders in the shadow root of the element.
  * @param values Array of tuples with a matcher and a replace value.
  * ```js
  * replaceTemplates(el, [/RegExp/, 'replaceWithThis']);

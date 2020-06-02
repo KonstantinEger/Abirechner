@@ -1,5 +1,6 @@
 import { Course } from "../db";
 import { replaceTemplates, avgArray } from './utils';
+import { AddGradeModalElement } from './AddGradeModal';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -102,11 +103,19 @@ export class AbiCourseCardElement extends HTMLElement {
       [/{{ MARKS }}/, this.course.marks[this.semester].toString()]
     );
 
-    this.shadowRoot?.getElementById('add-grade-btn')?.addEventListener('click', () => {
-      // open the add-grade-modal
-      // wait for a selection
-      // save the new grade in the database
-      // update
+    this.shadowRoot?.getElementById('add-grade-btn')?.addEventListener('click', async () => {
+      const { AddGradeModalElement } = await import('./AddGradeModal');
+      AddGradeModalElement.define();
+      const modal = document.createElement(AddGradeModalElement.selector) as AddGradeModalElement;
+      document.body.appendChild(modal);
+
+      const { success, ...modalResult } = await modal.result;
+
+      if (success) {
+        // ...
+        console.log(modalResult);
+      }
+
       console.warn('not implemented yet');
     });
   }

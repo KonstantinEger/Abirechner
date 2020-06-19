@@ -1,4 +1,4 @@
-import { Course } from "../db";
+import { Course, openDataBase } from "../db";
 import { replaceTemplates, avgArray } from './utils';
 import { AddGradeModalElement } from './AddGradeModal';
 
@@ -92,6 +92,9 @@ export class AbiCourseCardElement extends HTMLElement {
 
     const { courseAvg, examsAvg, marksAvg } = this.getAverages();
 
+    /* TODO: Element is being rendered and r.T. causes *everything* to be re-rendered.
+     * Find a more efficient method to replace templates.
+     */
     replaceTemplates(
       this,
       [/{{ COLOR }}/, this.course.color],
@@ -110,13 +113,30 @@ export class AbiCourseCardElement extends HTMLElement {
       document.body.appendChild(modal);
 
       const { success, ...modalResult } = await modal.result;
+      document.body.removeChild(modal);
 
       if (success) {
-        // ...
-        console.log(modalResult);
-      }
+        const tx = (await openDataBase()).transaction('courses', 'readwrite');
+        const idx = tx.store.index('by-short-name');
+        const dbCourse = (await idx.get(this.course!.short_name))!;
 
-      console.warn('not implemented yet');
+        switch (modalResult.type) {
+          case 'EXAM': {
+            dbCourse.exams[this.semester!].push(modalResult.value);
+            break;
+          }
+          case 'MARK': {
+            dbCourse.marks[this.semester!].push(modalResult.value);
+            break;
+          }
+        }
+
+        tx.store.put(dbCourse);
+        await tx.done;
+
+        // TODO: improve update or add service worker for caching
+        window.location.reload();
+      }
     });
   }
 

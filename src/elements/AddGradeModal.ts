@@ -2,9 +2,24 @@ import { GradeType } from "../db";
 
 const template = document.createElement('template');
 template.innerHTML = `
-  <h1>Hello World 1234</h1>
-  <button id="complete-btn">complete</button>
-  <button id="abort-btn">abort</button>
+  <div class="modal-background">
+    <div class="modal">
+      <div class="modal-header">
+        Neue Note Hinzufügen:
+      </div>
+
+      <div class="modal-body">
+        <select id="type-select">
+          <option value="EXAM" selected>Klausur</option>
+          <option value="MARK">Sonstige Note</option>
+        </select>
+        <input type="number" min="0" max="15" value="15" step="1" id="grade-input" />
+
+        <button class="btn btn-primary" id="done-btn">fertig</button>
+        <button class="btn btn-secundary" id="abort-btn">abbrechen</button>
+      </div>
+    </div>
+  </div>
 `;
 
 interface ModalResult {
@@ -27,13 +42,18 @@ export class AddGradeModalElement extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
-    this.shadowRoot?.getElementById('complete-btn')?.addEventListener('click', () => {
-      this.onModalCloseCallback({ success: true, type: 'EXAM', value: 0 });
-    });
+    const once = true;
 
-    this.shadowRoot?.getElementById('abort-btn')?.addEventListener('click', () => {
+    this.shadowRoot!.getElementById('done-btn')!.addEventListener('click', () => {
+      const type = (this.shadowRoot!.getElementById('type-select') as HTMLSelectElement).value as GradeType;
+      const value = parseInt((this.shadowRoot!.getElementById('grade-input') as HTMLInputElement).value);
+      // TODO: validation
+      this.onModalCloseCallback({ success: true, type, value });
+    }, { once });
+  
+    this.shadowRoot!.getElementById('abort-btn')!.addEventListener('click', () => {
       this.onModalCloseCallback({ success: false, type: 'EXAM', value: 0 });
-    });
+    }, { once });
   }
 
   public get result(): Promise<ModalResult> {
